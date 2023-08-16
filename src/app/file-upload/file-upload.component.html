@@ -1,0 +1,12 @@
+<form #inputForm>
+    <mat-form-field>
+        <mat-icon matIconPrefix matTooltip="Choose file(s)..." (click)="fileInput.click()">
+            attach_file</mat-icon>
+        <input matInput readonly [value]="getFilesName()" [placeholder]="placeholder">
+        <mat-icon matIconSuffix color="primary" matTooltip="Upload" *ngIf="files && files.length > 0"
+            (click)="onUploadFiles()">
+            upload></mat-icon>
+    </mat-form-field>
+
+    <input hidden type="file" (change)="onSelectFiles($event)" #fileInput [multiple]="multipleFilesAccepted">
+</form>
