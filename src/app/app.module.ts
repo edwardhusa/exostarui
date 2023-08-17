@@ -14,6 +14,9 @@ import { MatIconModule } from '@angular/material/icon'
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { EffectsModule } from '@ngrx/effects';
 
+import { HttpClientModule } from '@angular/common/http';
+import { UploadFileStoreModule } from './upload-file-store/upload-file-store.module';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -28,7 +31,9 @@ import { EffectsModule } from '@ngrx/effects';
     MatIconModule,
     MatSlideToggleModule,
     StoreModule.forRoot({}, {}),
-    EffectsModule.forRoot([])
+    EffectsModule.forRoot([]),
+    HttpClientModule,
+    UploadFileStoreModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,3 +1,7 @@
+/***
+ * Helper functions for UI to get current state of uploads
+ */
+
 import {
     createFeatureSelector,
     createSelector,

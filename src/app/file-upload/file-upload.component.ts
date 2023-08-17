@@ -1,5 +1,5 @@
 import { Component, Input, Output, ViewChild, EventEmitter } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import * as fromFileUploadActions from 'src/app/upload-file-store/actions';
@@ -13,21 +13,19 @@ import * as fromFileUploadState from 'src/app/upload-file-store/state';
 })
 export class FileUploadComponent {
     @Input() placeholder = "Attach files";
-    @Output() uploadFiles: EventEmitter<FileList> = new EventEmitter<FileList>();
     @ViewChild('inputForm') readonly inputForm!: any;
 
 
-    completed$ = Observable<boolean>;
-    progress$ = Observable<number>;
-    error$ = Observable<string>;
+    completed$: Observable<boolean>;
+    progress$: Observable<number>;
+    error$: Observable<string>;
 
-    isInProgress$ = Observable<boolean>;
-    isReady$ = Observable<boolean>;
-    hasFailed$ = Observable<boolean>;
+    isInProgress$: Observable<boolean>;
+    isReady$: Observable<boolean>;
+    hasFailed$: Observable<boolean>;
 
-    constructor(private store$: Store<fromFileUploadState.State>) { }
 
-    ngOnInit() {
+    constructor(private store$: Store<fromFileUploadState.State>) {
         this.completed$ = this.store$.pipe(
             select(fromFileUploadSelectors.selectUploadFileCompleted)
         );
@@ -53,7 +51,6 @@ export class FileUploadComponent {
         );
     }
 
-
     files!: FileList;
     filesLabel = '';
     multipleFilesAccepted = true;
@@ -78,17 +75,22 @@ export class FileUploadComponent {
         }
     }
 
-    uploadFile(event: any) {
-        const files: FileList = event.target.files;
+    onUploadFiles(): void {
+        this.uploadFile(this.files);
+        this.inputForm.nativeElement.reset();
+    }
+
+    uploadFile(files: FileList) {
+        const fileList: FileList = { ...this.files }
 
         this.store$.dispatch(
             new fromFileUploadActions.UploadRequestAction({
-                files
+                files: fileList
             })
         );
 
         // clear the input form
-        event.srcElement.value = null;
+        this.inputForm.nativeElement.reset();
     }
 
     resetUpload() {
@@ -98,12 +100,6 @@ export class FileUploadComponent {
     cancelUpload() {
         this.store$.dispatch(new fromFileUploadActions.UploadCancelAction());
     }
-
-    onUploadFiles(): void {
-        this.uploadFiles.emit(this.files);
-        this.inputForm.nativeElement.reset();
-    }
-
 
 
 
