@@ -1,4 +1,4 @@
-import { HttpClient, HttpEvent, HttpRequest } from '@angular/common/http';
+import { HttpClient, HttpEvent, HttpHeaders, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
@@ -11,21 +11,37 @@ export class FileUploadService {
 
   private API_BASE_URL = "http://[::1]:8080"
 
-  public uploadFile(files: FileList): Observable<HttpEvent<{}>> {
-    const formData = new FormData();
+  options = {
+    reportProgress: true
+  };
 
-    for (var i = 0; i < files.length; i++) {
-      formData.append("file", files[i], files[i].name);
+
+
+  public uploadFile(files: FileList): Observable<any> {
+    let formData = new FormData();
+    let reader = new FileReader();
+
+    //TODO: finish multifile upload
+    if (files.length > 1) {
+      for (var i = 0; i < files.length; i++) {
+        let file = files[i];
+        formData.append('file', file, file.name)
+      }
+    } else {
+      let file = files[0];
+      formData.append('file', file, file.name)
     }
-
-    // formData.append("reportProgress", "true");
 
 
     const req = new HttpRequest(
       'POST',
-      `${this.API_BASE_URL}/upload`,
-      formData
+      `${this.API_BASE_URL}/upload/raw`,
+      formData,
+      {
+        reportProgress: true
+      }
     );
+
     return this.httpClient.request(req);
   }
 
