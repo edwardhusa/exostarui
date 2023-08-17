@@ -10,10 +10,12 @@ export interface State {
     status: UploadStatus;
     error: string | null;
     progress: number | null;
+    result: string | null;
 }
 
 export const initialState: State = {
     status: UploadStatus.Ready,
     error: null,
-    progress: null
+    progress: null,
+    result: null
 };

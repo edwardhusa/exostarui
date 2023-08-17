@@ -11,6 +11,8 @@ import { State, UploadStatus } from './state';
 
 const getError = (state: State): string => (state.error || "");
 
+const getResult = (state: State): string => (state.result || "");
+
 const getStarted = (state: State): boolean =>
     state.status === UploadStatus.Started;
 
@@ -97,4 +99,12 @@ export const selectUploadFileCompleted: MemoizedSelector<
 > = createSelector(
     selectUploadFileFeatureState,
     getCompleted
+);
+
+export const selectUploadFileResult: MemoizedSelector<
+    object,
+    string
+> = createSelector(
+    selectUploadFileFeatureState,
+    getResult
 );

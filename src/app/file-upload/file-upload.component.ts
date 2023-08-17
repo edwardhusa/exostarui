@@ -19,6 +19,7 @@ export class FileUploadComponent {
     completed$: Observable<boolean>;
     progress$: Observable<number>;
     error$: Observable<string>;
+    result$: Observable<string>;
 
     isInProgress$: Observable<boolean>;
     isReady$: Observable<boolean>;
@@ -36,6 +37,10 @@ export class FileUploadComponent {
 
         this.error$ = this.store$.pipe(
             select(fromFileUploadSelectors.selectUploadFileError)
+        );
+
+        this.result$ = this.store$.pipe(
+            select(fromFileUploadSelectors.selectUploadFileResult)
         );
 
         this.isInProgress$ = this.store$.pipe(

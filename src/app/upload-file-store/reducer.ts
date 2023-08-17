@@ -87,7 +87,8 @@ export function featureReducer(state = initialState, action: Actions): State {
                 ...state,
                 status: UploadStatus.Completed,
                 progress: 100,
-                error: null
+                error: null,
+                result: action.payload.result
             };
         }
         default: {

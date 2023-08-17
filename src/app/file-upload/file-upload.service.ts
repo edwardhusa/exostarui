@@ -1,4 +1,4 @@
-import { HttpClient, HttpEvent, HttpHeaders, HttpRequest } from '@angular/common/http';
+import { HttpClient, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
@@ -15,11 +15,8 @@ export class FileUploadService {
     reportProgress: true
   };
 
-
-
   public uploadFile(files: FileList): Observable<any> {
     let formData = new FormData();
-    let reader = new FileReader();
 
     //TODO: finish multifile upload
     if (files.length > 1) {

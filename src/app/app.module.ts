@@ -10,8 +10,8 @@ import { StoreModule } from '@ngrx/store';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input'
 import { MatIconModule } from '@angular/material/icon'
-
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatCardModule } from '@angular/material/card'
+import { MatButtonModule } from '@angular/material/button'
 import { EffectsModule } from '@ngrx/effects';
 
 import { HttpClientModule } from '@angular/common/http';
@@ -29,11 +29,12 @@ import { UploadFileStoreModule } from './upload-file-store/upload-file-store.mod
     MatFormFieldModule,
     MatInputModule,
     MatIconModule,
-    MatSlideToggleModule,
     StoreModule.forRoot({}, {}),
     EffectsModule.forRoot([]),
     HttpClientModule,
-    UploadFileStoreModule
+    UploadFileStoreModule,
+    MatCardModule,
+    MatButtonModule
   ],
   providers: [],
   bootstrap: [AppComponent]

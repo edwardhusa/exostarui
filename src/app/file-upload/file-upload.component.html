@@ -13,7 +13,7 @@
 
 
 <div class="message" *ngIf="(isInProgress$ | async)">
-    <div style="margin-bottom: 14px;">Uploading... {{ progress$ | async }}%</div>
+    <mat-card>Uploading... {{ progress$ | async }}%</mat-card>
 </div>
 
 <div class="message" *ngIf="(isInProgress$ | async)">
@@ -21,12 +21,18 @@
 </div>
 
 <div class="message" *ngIf="(completed$ | async)">
-    <h4>
-        File has been uploaded successfully!
-    </h4>
-    <button (click)="resetUpload()">Upload Another File</button>
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>
+                <div class="multi-header" [innerHTML]="result$ | async"></div>
+            </mat-card-title>
+        </mat-card-header>
+        <mat-card-actions>
+            <button mat-button (click)="resetUpload()">Upload Another File</button>
+        </mat-card-actions>
+    </mat-card>
 </div>
 
 <div class="message error" *ngIf="(hasFailed$ | async)">
-    Error: {{ error$ | async }}
+    <mat-card>Error: {{ error$ | async }}</mat-card>
 </div>

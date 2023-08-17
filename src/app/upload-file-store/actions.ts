@@ -61,6 +61,7 @@ export class UploadFailureAction implements Action {
  */
 export class UploadCompletedAction implements Action {
     readonly type = ActionTypes.UPLOAD_COMPLETED;
+    constructor(public payload: { result: string }) { }
 }
 
 export type Actions =
