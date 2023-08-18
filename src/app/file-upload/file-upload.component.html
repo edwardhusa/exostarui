@@ -1,3 +1,5 @@
+<!-- Create a component that allows us to select a file and push through ngrx-->
+
 <form #inputForm>
     <mat-form-field>
         <mat-icon matIconPrefix matTooltip="Choose file(s)..." (click)="fileInput.click()">
@@ -10,7 +12,7 @@
     <input hidden type="file" (change)="onSelectFiles($event)" #fileInput [multiple]="multipleFilesAccepted">
 </form>
 
-
+<!-- The below pop up as various events occur, like success or failure -->
 
 <div class="message" *ngIf="(isInProgress$ | async)">
     <mat-card>Uploading... {{ progress$ | async }}%</mat-card>

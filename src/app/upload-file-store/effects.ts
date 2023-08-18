@@ -7,6 +7,9 @@ import { FileUploadService } from 'src/app/file-upload/file-upload.service';
 import * as fromFileUploadActions from './actions';
 import { serializeError } from 'serialize-error';
 
+/**
+ * Data type coming from API
+ */
 export interface UploadResponse {
     linesInFile?: number,
     linesParsed?: number,
@@ -16,6 +19,9 @@ export interface UploadResponse {
 @Injectable()
 export class UploadFileEffects {
 
+    /**
+     * Effect triggered when event pushed to upload request observable
+     */
     uploadRequestEffect$ = createEffect(() => this.actions$.pipe(
         ofType(fromFileUploadActions.ActionTypes.UPLOAD_REQUEST),
         concatMap(action =>
@@ -37,17 +43,24 @@ export class UploadFileEffects {
         private actions$: Actions<fromFileUploadActions.Actions>
     ) { }
 
+    /**
+     * Based on the incoming event, send events out to update UI elements
+     * @param event 
+     * @returns 
+     */
     private getActionFromHttpEvent(event: HttpEvent<any>) {
         switch (event.type) {
             case HttpEventType.Sent: {
                 return new fromFileUploadActions.UploadStartedAction();
             }
             case HttpEventType.UploadProgress: {
+                //update UI with Progress updates
                 return new fromFileUploadActions.UploadProgressAction({
                     progress: Math.round((100 * event.loaded) / (event.total || 1))
                 });
             }
             case HttpEventType.ResponseHeader:
+                //send out a basic update from the upload function to indicate status
                 if (event.status === 200) {
                     return new fromFileUploadActions.UploadCompletedAction({
                         result: "Upload Success!"
@@ -62,6 +75,7 @@ export class UploadFileEffects {
                     });
                 }
             case HttpEventType.Response: {
+                // When the API sends back information, update the UI with the information provided
                 let response = event as HttpResponse<UploadResponse>;
                 let result = response.body as UploadResponse;
                 let errorStr = "";
@@ -90,6 +104,11 @@ export class UploadFileEffects {
         }
     }
 
+    /**
+     * Generic error handler
+     * @param error 
+     * @returns 
+     */
     private handleError(error: any) {
         const friendlyErrorMessage = serializeError(error).message;
         return new fromFileUploadActions.UploadFailureAction({

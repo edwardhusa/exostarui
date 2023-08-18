@@ -25,7 +25,10 @@ export class FileUploadComponent {
     isReady$: Observable<boolean>;
     hasFailed$: Observable<boolean>;
 
-
+    /**
+     * Attach ngrx selectors to the observable elements
+     * @param store$ 
+     */
     constructor(private store$: Store<fromFileUploadState.State>) {
         this.completed$ = this.store$.pipe(
             select(fromFileUploadSelectors.selectUploadFileCompleted)
@@ -61,7 +64,9 @@ export class FileUploadComponent {
     multipleFilesAccepted = true;
 
 
-
+    /**
+     * When a file has been selected and placed waiting to upload
+     */
     onSelectFiles(event: any): void {
         this.files = event.target.files ?? null;
         this.filesLabel = this.getFilesLabel();
@@ -80,6 +85,9 @@ export class FileUploadComponent {
         }
     }
 
+    /** 
+     * Set local state with the selected file and trigger the upload action
+     */
     onUploadFiles(): void {
         this.uploadFile(this.files);
         this.inputForm.nativeElement.reset();
